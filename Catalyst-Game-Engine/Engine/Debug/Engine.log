@@ -1,0 +1,4 @@
+﻿  Application.cpp
+  The contents of <format> are available only in c++latest mode with concepts support;
+  see https://github.com/microsoft/STL/issues/1814 for details.
+  Engine.vcxproj -> D:\GitRepos\Catalyst-Game-Engine\Catalyst-Game-Engine\Debug\Engine.exe
