@@ -7,48 +7,29 @@ namespace engine {
 	class GameObject; class Component;
 	 
 	class GameObject {
+	private:
 		bool enabled;
 
-	private:
-		std::vector<Component*> components;
+		std::vector<GameObject*> components;
 		int componentCount;
 
-		void Enable();
-		void Disable();
 
 		bool isEnabled();
 
-		void Initialize();
-		void Start();
+		// for engine 
+		void _Initialize();
+		void _Start();
 
-		void PhysicsUpdate(float deltaTime);
+		void _PhysicsUpdate(float deltaTime);
 
-		void EarlyUpdate(float deltaTime);
-		void Update(float deltaTime);
-		void LateUpdate(float deltaTime);
+		void _EarlyUpdate(float deltaTime);
+		void _Update(float deltaTime);
+		void _LateUpdate(float deltaTime);
 
-		void End();
-		void Finalize();
+		void _End();
+		void _Finalize();
 
-
-	public:
-
-		void addComponent(Component*component);
-
-		template<typename T>
-		T* getComponent();
-	};
-
-	class Component {
-
-	private:
-		bool enabled;
-
-		void Enable();
-		void Disable();
-
-		bool isEnabled();
-
+		// user defined
 		virtual void Initialize();
 		virtual void Start();
 
@@ -58,13 +39,16 @@ namespace engine {
 		virtual void Update(float deltaTime);
 		virtual void LateUpdate(float deltaTime);
 
-
 		virtual void End();
 		virtual void Finalize();
 
-		friend class GameObject;
+	protected:
+
+		void addComponent(GameObject* component);
+
+		void Enable();
+		void Disable();
 	};
-	
 }
 
 

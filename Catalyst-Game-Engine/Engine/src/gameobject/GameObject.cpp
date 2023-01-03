@@ -9,129 +9,115 @@ namespace engine {
 	void GameObject::Disable()   { enabled = false; }
 	bool GameObject::isEnabled() { return enabled;  }
 	
-	void GameObject::Initialize() {
+	void GameObject::_Initialize() {
 		if(!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->Initialize();
+			c->_Initialize();
 		}
+		Initialize();
 	}
 
-	void GameObject::Start() {
+	void GameObject::_Start() {
 		if (!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->Start();
+			c->_Start();
 		}
+
+		Start();
 	}
 
-	void GameObject::PhysicsUpdate(float deltaTime) {
+	void GameObject::_PhysicsUpdate(float deltaTime) {
 		if (!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->PhysicsUpdate(deltaTime);
+			c->_PhysicsUpdate(deltaTime);
 		}
+
+		PhysicsUpdate(deltaTime);
 	}
 
-	void GameObject::EarlyUpdate(float deltaTime) {
+	void GameObject::_EarlyUpdate(float deltaTime) {
 		if (!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->EarlyUpdate(deltaTime);
+			c->_EarlyUpdate(deltaTime);
 		}
+
+		EarlyUpdate(deltaTime);
 	}
 
-	void GameObject::Update(float deltaTime) {
+	void GameObject::_Update(float deltaTime) {
 		if (!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->Update(deltaTime);
+			c->_Update(deltaTime);
 		}
+
+		Update(deltaTime);
 	}
 
-	void GameObject::LateUpdate(float deltaTime) {
+	void GameObject::_LateUpdate(float deltaTime) {
 		if (!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->LateUpdate(deltaTime);
+			c->_LateUpdate(deltaTime);
 		}
+
+		LateUpdate(deltaTime);
 	}
 
-	void GameObject::End() {
+	void GameObject::_End() {
 		if (!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->End();
+			c->_End();
 		}
+
+		End();
 	}
 
-	void GameObject::Finalize() {
+	void GameObject::_Finalize() {
 		if (!isEnabled()) return; 
 
-		for (Component* c : components) {
+		for (GameObject* c : components) {
 			if (!c->isEnabled()) continue;
 
-			c->Finalize();
+			c->_Finalize();
 		}
+
+		Finalize();
 	}
+	void GameObject::Initialize() {};
+	void GameObject::Start() {};
+
+	void GameObject::PhysicsUpdate(float deltaTime) {};
+
+	void GameObject::EarlyUpdate(float deltaTime) {};
+	void GameObject::Update(float deltaTime) {};
+	void GameObject::LateUpdate(float deltaTime) {};
+
+	void GameObject::End() {};
+	void GameObject::Finalize() {};
 
 
-	void GameObject::addComponent(Component* component) {
-		for (const Component* c : components) {
-			if (typeid(*component) == typeid(*c)) {
-				break;
-			}
-		}
-
+	void GameObject::addComponent(GameObject* component) {
 		components.push_back(component);
 	}
-
-	template<typename T>
-	T* GameObject::getComponent() {
-		for (Component* component : components) {
-			if (typeid(*component) == typeid(T)) {
-				return component;
-			}
-		}
-
-		return nullptr;
-	}
-
-	// Component
-
-	void Component::Enable()    { enabled = true;  }
-	void Component::Disable()   { enabled = false; }
-	bool Component::isEnabled() { return enabled;  }
-
-	void Component::Initialize() { }
-
-	void Component::Start() { }
-
-	void Component::PhysicsUpdate(float deltaTime) { }
-
-	void Component::EarlyUpdate(float deltaTime) { }
-
-	void Component::Update(float deltaTime) { }
-
-	void Component::LateUpdate(float deltaTime) { }
-
-	void Component::End() { }
-
-	void Component::Finalize() { }
-
 }
 

@@ -10,8 +10,71 @@
 
 #include "events/VectorState.h"
 #include "events/BooleanState.h"
+#include <iostream>
+#define print(x) std::cout << x << std::endl;
 
 namespace Context {
+    //TODO
+    void window_close_callback(GLFWwindow* window) { }
+
+    //TODO
+    void window_refresh_callback(GLFWwindow* window) { }
+
+    void window_size_callback(GLFWwindow* window, int width, int height)
+    {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (window == nullptr) return;
+
+        w->window_size.updatePosition(static_cast<float>(width), static_cast<float>(height));
+        print("x: " + std::to_string(w->getSize().x) + "y: " + std::to_string(w->getSize().y))
+    }
+
+    void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+    {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (window == nullptr) return;
+
+        w->framebuffer_size.updatePosition(static_cast<float>(width), static_cast<float>(height));
+    }
+    void window_content_scale_callback(GLFWwindow* window, float xscale, float yscale)
+    {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (window == nullptr) return;
+
+        w->window_content_scale.updatePosition(static_cast<float>(xscale), static_cast<float>(yscale));
+    }
+    void window_pos_callback(GLFWwindow* window, int xpos, int ypos)
+    {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (window == nullptr) return;
+
+        w->window_pos.updatePosition(static_cast<float>(xpos), static_cast<float>(ypos));
+    }
+    void window_iconify_callback(GLFWwindow* window, int iconified)
+    {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (window == nullptr) return;
+
+        w->window_iconify.updateValue((iconified == GL_TRUE) ? true : false);
+    }
+
+    void window_maximize_callback(GLFWwindow* window, int maximized)
+    {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (window == nullptr) return;
+
+        //TODO
+    }
+
+    void window_focus_callback(GLFWwindow* window, int focused)
+    {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (window == nullptr) return;
+        //TODO
+    }
+
+    
+
     Window::Window(int width, int height, std::string title) :
         width(width),
         height(height),
@@ -41,6 +104,14 @@ namespace Context {
     void Window::create()
     {
         id = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+        
+        if (id)
+        {
+            glfwSetWindowUserPointer(id, this);
+        }
+        else {
+            //TODO add error message
+        }
     }
 
     //TODO: REMOVE ONCE LOOP IS ABSTRACTED
@@ -56,49 +127,16 @@ namespace Context {
 
 
     void Window::setWindowCallbacks() {
-        glfwSetWindowSizeCallback(id, window_size_callback);
+        glfwSetWindowSizeCallback         (id, window_size_callback          );
+        glfwSetFramebufferSizeCallback    (id, framebuffer_size_callback     );
+        glfwSetWindowContentScaleCallback (id, window_content_scale_callback );
+        glfwSetWindowPosCallback          (id, window_pos_callback           );
+        glfwSetWindowIconifyCallback      (id, window_iconify_callback       );
+        glfwSetWindowMaximizeCallback     (id, window_maximize_callback      );
+        glfwSetWindowFocusCallback        (id, window_focus_callback         );
+        glfwSetWindowRefreshCallback      (id, window_refresh_callback       );
     }
         
-
-    void Window::window_close_callback(GLFWwindow* window) { }
-
-    void Window::window_refresh_callback(GLFWwindow* window) { }
-
-    void Window::window_size_callback(GLFWwindow* window, int width, int height)
-    {
-        if (!(window == id)) return;
-        window_size.updatePosition(static_cast<float>(width), static_cast<float>(height));
-    }
-
-    void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height)
-    {
-        if (!(window == id)) return;
-        framebuffer_size.updatePosition(static_cast<float>(width), static_cast<float>(height));
-    }
-    void Window::window_content_scale_callback(GLFWwindow* window, float xscale, float yscale)
-    {
-        if (!(window == id)) return;
-        window_content_scale.updatePosition(static_cast<float>(width), static_cast<float>(height));
-    }
-    void Window::window_pos_callback(GLFWwindow* window, int xpos, int ypos)
-    {
-        if (!(window == id)) return;
-        window_pos.updatePosition(static_cast<float>(width), static_cast<float>(height));
-    }
-    void Window::window_iconify_callback(GLFWwindow* window, int iconified)
-    {
-        if (!(window == id)) return;
-        window_iconify.updateValue((iconified == GL_TRUE) ? true : false);
-    }
-    void Window::window_maximize_callback(GLFWwindow* window, int maximized)
-    {
-        if (!(window == id)) return;
-    }
-    void Window::window_focus_callback(GLFWwindow* window, int focused)
-    {
-        if (!(window == id)) return;
-    }
-
     glm::vec2 Window::getSize() { return window_size.getPosition(); }
     VectorState Window::getSizeInfo() { return window_size.getState(); }
 

@@ -51,29 +51,29 @@ namespace Context {
 
 		GLFWmonitor* monitor;
 		
-		void window_close_callback(GLFWwindow* window);
-		void window_refresh_callback(GLFWwindow* window);
+		friend void window_close_callback(GLFWwindow* window);
+		friend void window_refresh_callback(GLFWwindow* window);
 
 		VectorStateTracker window_size;
-		void window_size_callback(GLFWwindow* window, int width, int height);
+		friend void window_size_callback(GLFWwindow* window, int width, int height);
 
 		VectorStateTracker framebuffer_size;
-		void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+		friend void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 		VectorStateTracker window_content_scale;
-		void window_content_scale_callback(GLFWwindow* window, float xscale, float yscale);
+		friend void window_content_scale_callback(GLFWwindow* window, float xscale, float yscale);
 
 		VectorStateTracker window_pos;
-		void window_pos_callback(GLFWwindow* window, int xpos, int ypos);
+		friend void window_pos_callback(GLFWwindow* window, int xpos, int ypos);
 
 		BooleanStateTracker window_iconify;
-		void window_iconify_callback(GLFWwindow* window, int iconified);
+		friend void window_iconify_callback(GLFWwindow* window, int iconified);
 
 		BooleanStateTracker window_maximize;
-		void window_maximize_callback(GLFWwindow* window, int maximized);
+		friend void window_maximize_callback(GLFWwindow* window, int maximized);
 
 		BooleanStateTracker window_focus;
-		void window_focus_callback(GLFWwindow* window, int focused);
+		friend void window_focus_callback(GLFWwindow* window, int focused);
 
 	public:
 		Window(int width, int height, std::string title);
@@ -109,6 +109,7 @@ namespace Context {
 		BooleanState getWindowFocusInfo();
 
 		GLFWwindow* getId();
+
 	};
 
 
