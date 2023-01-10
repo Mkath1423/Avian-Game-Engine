@@ -54,6 +54,9 @@
     <ClCompile Include="src\events\VectorState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\rendering\Vertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\default.glsl" />
@@ -115,8 +118,12 @@
     <ClInclude Include="src\BooleanState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\rendering\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\layouts\default.txt" />
+    <Text Include="resources\vao_format.txt" />
   </ItemGroup>
 </Project>

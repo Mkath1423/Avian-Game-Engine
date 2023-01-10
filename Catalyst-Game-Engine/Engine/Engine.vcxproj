@@ -163,6 +163,7 @@
     <ClCompile Include="src\rendering\Shading.cpp" />
     <ClCompile Include="src\ErrorChecking.cpp" />
     <ClCompile Include="src\components\Transform.cpp" />
+    <ClCompile Include="src\rendering\Vertex.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +180,7 @@
     <ClInclude Include="include\rendering\Buffers.h" />
     <ClInclude Include="include\rendering\Color.h" />
     <ClInclude Include="include\rendering\Shading.h" />
+    <ClInclude Include="include\rendering\Vertex.h" />
     <ClInclude Include="include\Window.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="include\geometry\Geometry.h" />
@@ -192,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\layouts\default.txt" />
+    <Text Include="resources\vao_format.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

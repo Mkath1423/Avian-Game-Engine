@@ -9,6 +9,9 @@
 
 namespace Rendering {
 	namespace Buffers {
+		// attribute layout
+
+
 		// vertex buffer
 		VBO::VBO(const unsigned int sizeBytes) {
 			bufferSize = sizeBytes;
@@ -47,11 +50,10 @@ namespace Rendering {
 		void VBO::bufferSubData(float* data, const int subDataSize, const int offset) {
 			int size = subDataSize;
 
-			bind();
 			if (size + offset > bufferSize) size = bufferSize - offset;
 			if (size <= 0) size = bufferSize;
 
-			GLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, size, data));
+			GLCall(glNamedBufferSubData(bufferID, 0, size, data));
 		}
 
 

@@ -3,6 +3,8 @@
 #include <string>
 #include <GL/glew.h>
 
+#include <vector>
+
 namespace Rendering {
 	namespace Buffers {
 
@@ -17,17 +19,7 @@ namespace Rendering {
 			Quad
 		};
 
-		class AttributeLayout {
-
-		private:
-			unsigned int type;
-			unsigned int size;
-
-			unsigned int offset;
-			unsigned int stride;
-
-			friend class VAO;
-		};
+		
 
 		class VBO {
 		private:

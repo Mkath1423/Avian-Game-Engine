@@ -18,8 +18,20 @@ using Rendering::Shading::Shader;
 using Context::Window;
 using Context::CreationHint;
 
+struct Vertex {
+    float x, y, z, r, g, b, a;
+    int texId;
+    float u, v;
+};
+
 int main(void)
 {
+    Vertex a;
+
+
+    print(sizeof(a))
+    print(sizeof(Vertex))
+
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -48,66 +60,66 @@ int main(void)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
-    Inputs::setCallbacks(window);
 
     if (glewInit() != GLEW_OK)
         std::cout << "Error!" << std::endl;
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
-    float positions[] = {
-        0.0f, 0.0f, 0,      1.0f, 0.0f, 0.5f, 1.0f,
-        0.0f, 1.0f, 0,      0.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 1.0f,  0,     0.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f,  0,     0.0f, 0.0f, 0.0f, 1.0f,
+    float positions[8*(2+4)] = {
+             0.0f,  0.0f,     // 0
+             0.5f,  0.0f,     // 1
+             0.5f,  0.5f,     // 2
+             0.0f,  0.5f,     // 3
+            -0.5f, -0.5f,     // 0
+             0.0f, -0.5f,     // 1
+             0.0f,  0.0f,     // 2
+            -0.5f,  0.0f,     // 3
+    };
 
-        0.0f, 0.0f, 0,    1.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, -0.25f, 0,     1.0f, 1.0f, 0.0f, 1.0f,
-        -0.10f, -0.5f, 0,     1.0f, 1.0f, 0.0f, 1.0f,
-        -0.1f, 0.0f, 0,     1.0f, 1.0f, 0.0f, 1.0f,
-
-    }; 
-
+    float colors[] = {
+        1.0f, 1.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 1.0f,
+    };
    
-    unsigned int indexs[] = {
+    unsigned int indices[6] = {
         0, 1, 2,
         2, 3, 0,
     };
 
-    int vertexSize = (3 + 4) * sizeof(float);
+    int vertexSize = (2 + 4) * sizeof(float);
+    int numberOfVertecies = 8;
 
-    for (int i = 0; i < 6 * 8; i++) {
-        print(positions[i]);
-    }
 
     unsigned int vao;
-    GLCall(glGenVertexArrays(1, &vao));
-    GLCall(glBindVertexArray(vao))
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
-    VBO vbo = VBO(8 * vertexSize);
+    // Create buffer and copy data
+    VBO positions_vbo = VBO(numberOfVertecies * 2 * sizeof(float));
 
-    GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0));
-    GLCall(glEnableVertexAttribArray(0));
+    // define vertex layout
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    glEnableVertexAttribArray(0);
 
-    GLCall(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, vertexSize, (void*)(3 * sizeof(float))));
-    GLCall(glEnableVertexAttribArray(1));
+    VBO colors_vbo = VBO(numberOfVertecies * 4 * sizeof(float));
 
-    vbo.bufferSubData(positions);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glEnableVertexAttribArray(1);
 
+    // Create index buffer
+    EBO ibo = EBO(indices, 6, 4, 2);
 
-    EBO ibo = EBO(indexs, 6, 4, 2);
+    glBindVertexArray(0);
 
-
-    /*unsigned int ibo;
-    GLCall(glGenBuffers(1, &ibo));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * 2 * sizeof(unsigned int), &indexs, GL_STATIC_DRAW));*/
-
-    GLCall(glBindVertexArray(0))
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-
-
+    positions_vbo.bufferSubData(positions);
+    colors_vbo.bufferSubData(colors);
 	/*VAOLayout vaoLayout;
 
 	ParseShader(filename, &vertexShader, &fragmentShader);*/
@@ -119,16 +131,15 @@ int main(void)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
 	{
-		glfwPollEvents();
-		Inputs::update(0.1f);
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        GLCall(glBindVertexArray(vao))
 
-        GLCall(glDrawElements(GL_TRIANGLES, 6 * 2, GL_UNSIGNED_INT, nullptr));
+        glBindVertexArray(vao);
+        GLCall(glDrawElements(GL_TRIANGLES, 6*2, GL_UNSIGNED_INT, nullptr););
 
+        glBindVertexArray(0);
         //print("x: " + std::to_string(w.getSize().x) + "y: " + std::to_string(w.getSize().y))
 
         /* Swap front and back buffers */
