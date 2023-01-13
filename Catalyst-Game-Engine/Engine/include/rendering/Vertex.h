@@ -7,7 +7,6 @@
 
 #include "rendering/Buffers.h"
 
-using Rendering::Buffers::VBO;
 using Rendering::Buffers::EBO;
 
 namespace Rendering {
@@ -50,10 +49,8 @@ namespace Rendering {
 
 			unsigned int id;
 
-			VBO vbo;
 			std::vector<T> verticies;
 
-			EBO ebo;
 			std::vector<int> indicies;
 
 		public:

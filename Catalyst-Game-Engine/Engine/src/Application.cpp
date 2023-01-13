@@ -12,8 +12,10 @@
 
 #define print(x) std::cout << x << "\n";
 
-using Rendering::Buffers::VBO;
 using Rendering::Buffers::EBO;
+
+using Rendering::Buffers::Buffer;
+
 using Rendering::Shading::Shader;
 using Context::Window;
 using Context::CreationHint;
@@ -95,20 +97,20 @@ int main(void)
 
     int vertexSize = (2 + 4) * sizeof(float);
     int numberOfVertecies = 8;
-
+    
 
     unsigned int vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
     // Create buffer and copy data
-    VBO positions_vbo = VBO(numberOfVertecies * 2 * sizeof(float));
+    Buffer<float> position_vbo = Buffer<float>(numberOfVertecies * 2 * sizeof(float));
 
     // define vertex layout
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     glEnableVertexAttribArray(0);
 
-    VBO colors_vbo = VBO(numberOfVertecies * 4 * sizeof(float));
+    Buffer<float> colors_vbo = Buffer<float>(numberOfVertecies * 2 * sizeof(float));
 
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glEnableVertexAttribArray(1);
@@ -118,8 +120,8 @@ int main(void)
 
     glBindVertexArray(0);
 
-    positions_vbo.bufferSubData(positions);
-    colors_vbo.bufferSubData(colors);
+    position_vbo.buffer(positions);
+    colors_vbo.buffer(colors);
 	/*VAOLayout vaoLayout;
 
 	ParseShader(filename, &vertexShader, &fragmentShader);*/

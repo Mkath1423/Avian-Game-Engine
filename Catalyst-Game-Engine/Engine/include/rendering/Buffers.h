@@ -5,6 +5,8 @@
 
 #include <vector>
 
+#include "ErrorChecking.h"
+
 namespace Rendering {
 	namespace Buffers {
 
@@ -20,24 +22,62 @@ namespace Rendering {
 		};
 
 		
-
-		class VBO {
+		template<typename T>
+		class Buffer {
 		private:
-			unsigned int bufferID;
-			unsigned int bufferSize;
-
-			bool isBound;
-
-			void initializeBuffer();
+			unsigned int size;
+			unsigned int id;
 
 		public:
-			VBO(unsigned int sizeBytes);
-			~VBO();
 
-			void bind();
-			void unbind();
 
-			void bufferSubData(float* data, int subDataSize = -1, const int offset = 0);
+			Buffer(unsigned int size_, unsigned int usage_ = GL_DYNAMIC_DRAW) {
+				this->size = size_;
+
+				glGenBuffers(1, &id);
+				GLCall(glNamedBufferData(id, size, nullptr, usage_));
+
+			}
+
+			~Buffer() {
+				glDeleteBuffers(1, &id);
+			};
+
+			void bind(unsigned int target) {
+				GLCall(glBindBuffer(target, id))
+			}
+
+			void buffer(const T* data) {
+				GLCall(glNamedBufferSubData(id, 0, size, data));
+			}
+
+			void buffer(const T* data, unsigned int offset_, unsigned int size_) {
+				GLCall(glBufferSubData(id,
+					offset_,
+					(offset_ + size_) <= size ? size_ : (size - offset_),
+					data
+				));
+			}
+		};
+
+		class VertexBuffer {
+		private:
+			Buffer<float> vertexBuffer;
+			Buffer<int> indexBuffer;
+
+			unsigned int size;
+
+			int id;
+
+		public:
+
+			VertexBuffer(const float* vertexArray, const int* indexArray, unsigned int size);
+			~VertexBuffer();
+
+			void set(const float* verticies, const int* indicies, const unsigned int count, const unsigned int offset);
+
+			void draw();
+			void draw(unsigned int offset, unsigned  int size);
 		};
 
 		class EBO {
@@ -53,16 +93,6 @@ namespace Rendering {
 			void unbind();
 		};
 
-		class VAO {
-		private:
-			VBO vbo;
-			EBO ebo;
-
-			unsigned int vertexSize;
-
-		public:
-			VAO(VBO vbo, EBO ebo);
-		};
 
 		//// vao
 		//int generateVAO();

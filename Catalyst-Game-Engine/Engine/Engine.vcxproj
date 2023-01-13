@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SoulutionDir)include/events;$(SoulutionDir)include/inputs;$(SoulutionDir)include/geometry;$(SoulutionDir)include/gameobject;$(SoulutionDir)include/vendor;$(SoulutionDir)include;$(SoulutionDir)include/rendering;$(SoulutionDir)src\rendering;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SoulutionDir)include/events;$(SoulutionDir)include/inputs;$(SoulutionDir)include/geometry;$(SoulutionDir)include/gameobject;$(SoulutionDir)include/vendor;$(SoulutionDir)include;$(SoulutionDir)include/rendering;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SoulutionDir)include/events;$(SoulutionDir)include/inputs;$(SoulutionDir)include/geometry;$(SoulutionDir)include/gameobject;$(SoulutionDir)include/vendor;$(SoulutionDir)include;$(SoulutionDir)include/rendering;$(SoulutionDir)src\rendering;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SoulutionDir)include/events;$(SoulutionDir)include/inputs;$(SoulutionDir)include/geometry;$(SoulutionDir)include/gameobject;$(SoulutionDir)include/vendor;$(SoulutionDir)include;$(SoulutionDir)include/rendering;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

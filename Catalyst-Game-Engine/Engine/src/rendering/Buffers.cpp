@@ -12,51 +12,6 @@ namespace Rendering {
 		// attribute layout
 
 
-		// vertex buffer
-		VBO::VBO(const unsigned int sizeBytes) {
-			bufferSize = sizeBytes;
-
-			bufferID = -1;
-			isBound = false;
-			GLCall(glGenBuffers(1, &bufferID));
-
-			bind();
-			initializeBuffer();
-		}
-
-		VBO::~VBO() {
-			GLCall(glDeleteBuffers(1, &bufferID))
-		}
-
-		void VBO::bind() {
-			if (isBound) return;
-
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, bufferID))
-				isBound = true;
-		}
-
-		void VBO::unbind() {
-			if (!isBound) return;
-
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0))
-				isBound = false;
-		}
-
-		void VBO::initializeBuffer() {
-			bind();
-			GLCall(glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_DYNAMIC_DRAW))
-		}
-
-		void VBO::bufferSubData(float* data, const int subDataSize, const int offset) {
-			int size = subDataSize;
-
-			if (size + offset > bufferSize) size = bufferSize - offset;
-			if (size <= 0) size = bufferSize;
-
-			GLCall(glNamedBufferSubData(bufferID, 0, size, data));
-		}
-
-
 		// element buffer
 		EBO::EBO(const unsigned int* indices,
 			const int indices_per_element,
